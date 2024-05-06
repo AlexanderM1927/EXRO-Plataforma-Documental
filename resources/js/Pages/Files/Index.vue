@@ -60,7 +60,7 @@ watch(searchInput, function () {
                 <div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">
-                            <Icon name="material-symbols:search" color="black" />
+                            <img src="/search.svg">
                         </span>
                         <input
                             v-model="searchInput"
@@ -115,7 +115,7 @@ watch(searchInput, function () {
                             target="_blank"
                         >
                             Descargar</a> <a class="btn btn-outline-primary" :href="_route('files.edit', file.id)">
-                                Editar</a> <a class="btn btn-outline-danger" href="#" @click="deleteFile(file.id)">Eliminar</a>
+                                Editar</a> <a class="btn btn-outline-danger" href="#" v-if="is('admin')" @click="deleteFile(file.id)">Eliminar</a>
                         <div :class="`tooltip-pdf`" :id="`tooltip-pdf-${file.id}`">
                             <iframe
                                 :src="_route('files.download', file.id)"

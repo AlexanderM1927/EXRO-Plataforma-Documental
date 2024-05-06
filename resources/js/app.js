@@ -7,6 +7,7 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import VueSweetalert2 from 'vue-sweetalert2';
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
 
 createInertiaApp({
   title: (title) => `${title}`,
@@ -19,6 +20,7 @@ createInertiaApp({
     return createApp({ render: () => h(app, props) })
         .use(plugin)
         .use(VueSweetalert2)
+        .use(LaravelPermissionToVueJS)
         .mount(el);
   },
 });

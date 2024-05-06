@@ -55,7 +55,8 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|string',
             'password' => 'required|string',
-            'department_id' => 'required|int'
+            'department_id' => 'required|int',
+            'role' => 'required|string'
         ]);
 
         $department = $this->repository->create($request->all());

@@ -11,6 +11,12 @@
             font-size: 16px; /* Sets the base font size to 16px */
         }
     </style>
+    <script type="text/javascript">
+        window.Laravel = {
+            csrfToken: "{{ csrf_token() }}",
+            jsPermissions: {!! auth()->user()?->jsPermissions() !!}
+        }
+    </script>
   </head>
   <body>
     @inertia

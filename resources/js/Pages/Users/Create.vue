@@ -2,11 +2,13 @@
 import Layout from '../../Layouts/Layout.vue';
 import { ref } from 'vue'
 const props = defineProps(['departments'])
+const roles = ['user', 'admin']
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const departmentId = ref('')
+const role = ref('')
 
 const create = async (e) => {
     e.preventDefault()
@@ -15,7 +17,8 @@ const create = async (e) => {
             name: name.value,
             email: email.value,
             password: password.value,
-            department_id: departmentId.value
+            department_id: departmentId.value,
+            role: role.value
         })
         if (request.status === 200) {
             location.href = request.data.redirect
@@ -81,6 +84,25 @@ const create = async (e) => {
                         :key="index"
                     >
                         {{ department.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="area" class="form-label">Rol</label>
+                <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="area"
+                    v-model="role"
+                    required
+                >
+                    <option value="" selected></option>
+                    <option
+                        v-for="(role, index) in roles"
+                        :value="role"
+                        :key="index"
+                    >
+                        {{ role }}
                     </option>
                 </select>
             </div>

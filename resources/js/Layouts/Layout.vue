@@ -6,22 +6,26 @@ const menuLinks = [
     {
         title: 'Inicio',
         name: 'dashboard',
-        href: '/dashboard'
+        href: '/dashboard',
+        role: 'user | admin',
     },
     {
         title: 'Usuarios',
         name: 'users',
-        href: '/users'
+        href: '/users',
+        role: 'admin',
     },
     {
         title: 'Áreas',
         name: 'departments',
-        href: '/departments'
+        href: '/departments',
+        role: 'admin',
     },
     {
         title: 'Archivos',
         name: 'files',
-        href: '/files'
+        href: '/files',
+        role: 'user | admin',
     }
 ]
 </script>
@@ -49,6 +53,7 @@ const menuLinks = [
                                 :class="`nav-link ${currentRoute.includes(link.name) ? 'active' : ''}`"
                                 aria-current="page"
                                 :href="link.href"
+                                v-if="is(link.role)"
                             >{{link.title}}</a>
                         </li>
                         <li class="nav-item">

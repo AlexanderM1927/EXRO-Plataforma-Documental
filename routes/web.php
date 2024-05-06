@@ -17,7 +17,7 @@ Route::get('/dashboard', [GeneralController::class, 'show'])
     ->middleware(['auth']);
 
 
-Route::middleware(['auth'])->prefix('users')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/store', [UserController::class, 'store'])->name('users.store');
@@ -26,7 +26,7 @@ Route::middleware(['auth'])->prefix('users')->group(function () {
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
 });
 
-Route::middleware(['auth'])->prefix('departments')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('departments')->group(function () {
     Route::get('/', [DepartmentController::class, 'index'])->name('departments');
     Route::get('/create', [DepartmentController::class, 'create'])->name('departments.create');
     Route::post('/store', [DepartmentController::class, 'store'])->name('departments.store');
@@ -43,5 +43,5 @@ Route::middleware(['auth'])->prefix('files')->group(function () {
     Route::get('/edit/{id}', [FileController::class, 'edit'])->name('files.edit');
     Route::put('/update/{id}', [FileController::class, 'update'])->name('files.update');
     Route::get('/download/{id}', [FileController::class, 'download'])->name('files.download');
-    Route::delete('/delete/{id}', [FileController::class, 'delete'])->name('files.delete');
+    Route::delete('/delete/{id}', [FileController::class, 'delete'])->middleware(['role:admin'])->name('files.delete');
 });

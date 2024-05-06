@@ -20,6 +20,9 @@ class UserRepository implements IUserRepository
         $user->department_id = $data['department_id'];
         $user->save();
 
+        $user->assignRole($data['role']);
+
+
         return $user;
     }
 
