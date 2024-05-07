@@ -42,6 +42,7 @@ class UserController extends Controller
     {
         return Inertia::render('Users/Edit', [
             'user' => User::find($id),
+            'role' => User::find($id)->getRoleNames(),
             'departments' => Department::all()
         ]);
     }
@@ -72,7 +73,7 @@ class UserController extends Controller
         } else {
             return response()->json(
                 [
-                    'message' => 'Error during create department',
+                    'message' => 'Error during create user',
                 ],
                 HttpResponse::HTTP_BAD_REQUEST
             );
@@ -87,7 +88,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string',
-            'department_id' => 'required|int'
+            'department_id' => 'required|int',
+            'role' => 'required|string'
         ]);
 
         $department = $this->repository->update($id, $request->all());
@@ -95,7 +97,7 @@ class UserController extends Controller
         if (!empty($department)) {
             return response()->json(
                 [
-                    'message' => 'User created successfully',
+                    'message' => 'User updated successfully',
                     'redirect' => route('users')
                 ],
                 HttpResponse::HTTP_OK
@@ -103,7 +105,7 @@ class UserController extends Controller
         } else {
             return response()->json(
                 [
-                    'message' => 'Error during create department',
+                    'message' => 'Error during update user',
                 ],
                 HttpResponse::HTTP_BAD_REQUEST
             );

@@ -91,7 +91,7 @@ class DepartmentController extends Controller
         if (!empty($department)) {
             return response()->json(
                 [
-                    'message' => 'Department created successfully',
+                    'message' => 'Department updated successfully',
                     'redirect' => route('departments')
                 ],
                 HttpResponse::HTTP_OK
@@ -99,7 +99,7 @@ class DepartmentController extends Controller
         } else {
             return response()->json(
                 [
-                    'message' => 'Error during create department',
+                    'message' => 'Error during update department',
                 ],
                 HttpResponse::HTTP_BAD_REQUEST
             );

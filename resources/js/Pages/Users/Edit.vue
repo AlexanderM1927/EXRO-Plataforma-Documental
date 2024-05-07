@@ -1,8 +1,14 @@
 <script setup>
 import Layout from '../../Layouts/Layout.vue';
-import { inject } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 const swal = inject('$swal')
-const props = defineProps(['departments', 'user'])
+const props = defineProps(['departments', 'user', 'role'])
+const roles = ['user', 'admin']
+const roleAssigned = ref('')
+
+onMounted(() => {
+    roleAssigned.value = props.role[0]
+})
 
 
 const update = async (e) => {
@@ -12,7 +18,8 @@ const update = async (e) => {
             name: props.user.name,
             email: props.user.email,
             password: props.user.password,
-            department_id: props.user.department_id
+            department_id: props.user.department_id,
+            role: roleAssigned.value
         })
         if (request.status === 200) {
             location.href = request.data.redirect
@@ -68,6 +75,24 @@ const update = async (e) => {
                         :key="index"
                     >
                         {{ department.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="area" class="form-label">Rol</label>
+                <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="area"
+                    v-model="roleAssigned"
+                    required
+                >
+                    <option
+                        v-for="(role, index) in roles"
+                        :value="role"
+                        :key="index"
+                    >
+                        {{ role }}
                     </option>
                 </select>
             </div>

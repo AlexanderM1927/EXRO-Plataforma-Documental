@@ -35,6 +35,7 @@ class UserRepository implements IUserRepository
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->department_id = $data['department_id'];
+        $user->syncRoles([$data['role']]);
         $user->update();
 
         return $user;

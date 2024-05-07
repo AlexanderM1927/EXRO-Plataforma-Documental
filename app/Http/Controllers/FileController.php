@@ -130,7 +130,7 @@ class FileController extends Controller
         } else {
             return response()->json(
                 [
-                    'message' => 'Error during create file',
+                    'message' => 'Error during update file',
                 ],
                 HttpResponse::HTTP_BAD_REQUEST
             );

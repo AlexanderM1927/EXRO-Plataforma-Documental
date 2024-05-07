@@ -47,6 +47,8 @@ const create = async (e) => {
                     type="text"
                     class="form-control"
                     id="text"
+                    required
+                    placeholder="Ex: Juanito Perez..."
                 >
             </div>
             <div class="mb-3">
@@ -57,6 +59,8 @@ const create = async (e) => {
                     class="form-control"
                     id="email"
                     aria-describedby="emailHelp"
+                    required
+                    placeholder="Ex: juanito@exro.com.co"
                 >
             </div>
             <div class="mb-3">
@@ -66,6 +70,7 @@ const create = async (e) => {
                     type="password"
                     class="form-control"
                     id="password"
+                    required
                 >
             </div>
             <div class="mb-3">
@@ -77,7 +82,6 @@ const create = async (e) => {
                     v-model="departmentId"
                     required
                 >
-                    <option value="" selected></option>
                     <option
                         v-for="(department, index) in departments"
                         :value="department.id"
@@ -96,7 +100,6 @@ const create = async (e) => {
                     v-model="role"
                     required
                 >
-                    <option value="" selected></option>
                     <option
                         v-for="(role, index) in roles"
                         :value="role"
