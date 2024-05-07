@@ -59,7 +59,7 @@ class FileRepository implements IFileRepository
             $pdf->AddPage();
             $pdf->setSourceFile($data['file']->path());
             $tplId = $pdf->importPage(1);
-            $pdf->useTemplate($tplId);
+            $pdf->useTemplate($tplId, 0, 0, null, null, true);
             // now write some text above the imported page
             $pdf->SetFont('Arial', '', '12');
             $pdf->SetTextColor(0,0,0);
