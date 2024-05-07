@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\CannotUploadCompressedFile;
+use App\Exceptions\CannotUploadEncryptedFile;
 use App\Models\Department;
 use App\Models\File;
 use Illuminate\Http\File as HttpFile;
@@ -9,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 
 class FileRepository implements IFileRepository
 {
@@ -51,24 +54,32 @@ class FileRepository implements IFileRepository
      * {@inheritdoc}
      */
     public function storeFile($data, $code) {
-        $pdf = new Fpdi;
-        $pdf->AddPage();
-        $pdf->setSourceFile($data['file']->path());
-        $tplId = $pdf->importPage(1);
-        $pdf->useTemplate($tplId);
-        // now write some text above the imported page
-        $pdf->SetFont('Arial', '', '12');
-        $pdf->SetTextColor(0,0,0);
-        //set position in pdf document
-        $pdf->SetXY(20, 20);
-        //first parameter defines the line height
-        $pdf->Write(0, $code);
+        try {
+            $pdf = new Fpdi;
+            $pdf->AddPage();
+            $pdf->setSourceFile($data['file']->path());
+            $tplId = $pdf->importPage(1);
+            $pdf->useTemplate($tplId);
+            // now write some text above the imported page
+            $pdf->SetFont('Arial', '', '12');
+            $pdf->SetTextColor(0,0,0);
+            //set position in pdf document
+            $pdf->SetXY(20, 20);
+            //first parameter defines the line height
+            $pdf->Write(0, $code);
 
-        $path = str_replace('/tmp', '', $data['file']->path().'.pdf');
-        $publicPath = public_path('app').'/'.$path;
-        $pdf->Output($publicPath,'F');
-        Storage::putFileAs('files', new HttpFile($publicPath), $path);
-        unlink($publicPath);
+            $path = str_replace('/tmp', '', $data['file']->path().'.pdf');
+            $publicPath = public_path('app').'/'.$path;
+            $pdf->Output($publicPath,'F');
+            Storage::putFileAs('files', new HttpFile($publicPath), $path);
+            unlink($publicPath);
+        } catch (CrossReferenceException $e) {
+            if (str_contains($e->getMessage(), 'compression')) {
+                throw new CannotUploadCompressedFile();
+            } elseif (str_contains($e->getMessage(), 'encrypted')) {
+                throw new CannotUploadEncryptedFile();
+            }
+        }
 
         return $path;
     }
