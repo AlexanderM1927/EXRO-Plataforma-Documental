@@ -46,9 +46,11 @@ const deleteFile = async (fileId) => {
 }
 
 watch(searchInput, function () {
-    debounce(() => {
-        location.href = route('files.search') + '?search=' + searchInput.value
-    }, 3000)
+    if (searchInput.value != props.currentSearch) {
+        debounce(() => {
+            location.href = route('files.search') + '?search=' + searchInput.value
+        }, 3000)
+    }
 })
 </script>
 

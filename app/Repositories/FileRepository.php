@@ -74,11 +74,7 @@ class FileRepository implements IFileRepository
             Storage::putFileAs('files', new HttpFile($publicPath), $path);
             unlink($publicPath);
         } catch (CrossReferenceException $e) {
-            if (str_contains($e->getMessage(), 'compression')) {
-                throw new CannotUploadCompressedFile();
-            } elseif (str_contains($e->getMessage(), 'encrypted')) {
-                throw new CannotUploadEncryptedFile();
-            }
+            throw new CannotUploadCompressedFile();
         }
 
         return $path;

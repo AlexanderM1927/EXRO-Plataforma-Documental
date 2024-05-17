@@ -7,7 +7,7 @@ use Illuminate\Http\Response as HttpResponse;
 
 class CannotUploadCompressedFile extends Exception
 {
-    private $errorMsg = 'Este archivo ha sido previamente compreso, por lo que necesitas abrirlo desde tu navegador web (Ej, Google Chrome), pulsar en el icono de imprimir y en destino guardarlo como pdf y subir el nuevo archivo.';
+    private $errorMsg = 'Este archivo ha sido previamente procesado en otro equipo, por lo que necesitas abrirlo desde tu navegador web (Ej, Google Chrome), pulsar en el icono de imprimir y en destino guardarlo como pdf y subir el nuevo archivo.';
 
     /**
      * Report the exception.
