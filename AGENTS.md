@@ -17,3 +17,4 @@
 - `docker compose exec laravel.test npm install`
 - `docker compose exec laravel.test npm run build`
 - `docker compose exec laravel.test node -v`
+
