@@ -1,53 +1,54 @@
 <template>
-    <div
-        class="pagination-centered"
-        v-if="info.data && info.data.length > 0"
-        :key="render"
-    >
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li
-                    :class="`page-item ${info.current_page == 1 ? 'disabled' : ''}`"
-                    @click="changePage(`${info.current_page == 1 ? '#' : (info.path + '?page=' + (info.current_page - 1))}`)"
-                >
-                    <a title="Previous" class="page-link">Previous</a>
-                </li>
-                <li class="page-item" v-if="info.current_page > 3">
-                    <a title="1" class="page-link" @click="changePage(info.path + '1')">1</a>
-                </li>
-                <li v-if="info.current_page > 4"><span>...</span></li>
-                <li
-                    v-for="(n, index) in pagesToShow"
-                    :key="index"
-                    :class="info.current_page == n ? 'page-item active' : ''"
-                >
-                    <a
-                        class="page-link"
-                        v-if="info.current_page != n"
-                        @click="changePage(info.path + '?page=' + n)"
-                        :title="n"
-                    >
-                        {{ n }}
-                    </a>
-                    <a class="page-link" v-else>{{ n }}</a>
-                </li>
-                <li v-if="info.current_page < info.last_page - 3"><span>...</span></li>
-                <li class="page-item" v-if="info.current_page < info.last_page - 2">
-                    <a
-                        class="page-link"
-                        @click="changePage(info.path + '?page=' + info.last_page)"
-                        :title="info.last_page"
-                    >{{ info.last_page }}</a>
-                </li>
-
-                <li :class="`page-item ${info.current_page == info.last_page ? 'disabled' : ''}`">
-                    <a
-                        title="Next"
-                        class="page-link"
-                        @click="changePage(`${info.current_page == info.last_page ? '#' : (info.path + '?page=' + (info.current_page + 1))}`)"
-                    >Next</a>
-                </li>
-            </ul>
+    <div v-if="info.data && info.data.length > 0" :key="render" class="mt-6 flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p class="mb-0 text-sm text-slate-500">
+            Página {{ info.current_page }} de {{ info.last_page }}
+        </p>
+        <nav aria-label="Page navigation" class="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
+            <button
+                type="button"
+                class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-200 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-45"
+                :disabled="info.current_page == 1"
+                @click="changePage(`${info.path}?page=${info.current_page - 1}`)"
+            >
+                Previous
+            </button>
+            <button
+                v-if="info.current_page > 3"
+                type="button"
+                class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-200 hover:text-brand-700"
+                @click="changePage(`${info.path}?page=1`)"
+            >
+                1
+            </button>
+            <span v-if="info.current_page > 4" class="px-1 text-slate-400">...</span>
+            <button
+                v-for="(n, index) in pagesToShow"
+                :key="index"
+                type="button"
+                :class="info.current_page == n
+                    ? 'rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-brand-600/25'
+                    : 'rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-200 hover:text-brand-700'"
+                @click="info.current_page != n ? changePage(`${info.path}?page=${n}`) : null"
+            >
+                {{ n }}
+            </button>
+            <span v-if="info.current_page < info.last_page - 3" class="px-1 text-slate-400">...</span>
+            <button
+                v-if="info.current_page < info.last_page - 2"
+                type="button"
+                class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-200 hover:text-brand-700"
+                @click="changePage(`${info.path}?page=${info.last_page}`)"
+            >
+                {{ info.last_page }}
+            </button>
+            <button
+                type="button"
+                class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-200 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-45"
+                :disabled="info.current_page == info.last_page"
+                @click="changePage(`${info.path}?page=${info.current_page + 1}`)"
+            >
+                Next
+            </button>
         </nav>
     </div>
 </template>
@@ -80,14 +81,3 @@ onMounted(() => {
     getPagesToShow()
 })
 </script>
-<style scoped>
-.pagination-centered {
-    margin-top: 1rem;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-.page-link {
-    cursor: pointer;
-}
-</style>
