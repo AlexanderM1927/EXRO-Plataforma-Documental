@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\Department;
 use App\Models\File;
 use App\Services\PdfProcessingService;
-use Illuminate\Http\Request;
 
 class FileRepository implements IFileRepository
 {
